@@ -70,18 +70,19 @@ function JobLayout() {
               if (!options[key]) {
                 options[key] = new Set();
               }
-              if(job[key]) options[key].add(job[key]);
+              if (job[key]) options[key].add(job[key]);
             }
           });
         });
-        const filterOptions = Object.keys(options).map((key) => ({
-          value: key,
-          label: key.charAt(0).toUpperCase() + key.slice(1),
-          options: Array.from(options[key]).map((option) => ({
-            value: option,
-            label: option,
-          })),
-        }));
+        const filterOptions = Object.keys(options)
+          .map((key) => ({
+            value: key,
+            label: key.charAt(0).toUpperCase() + key.slice(1),
+            options: Array.from(options[key]).map((option) => ({
+              value: option,
+              label: option,
+            })),
+          }));
         setFilterOptions(filterOptions);
       } catch (error) {
         console.error(error);
@@ -97,16 +98,32 @@ function JobLayout() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Array to define the order of filters
+  const filterOrder = [
+    "minExp",
+    "companyName",
+    "location",
+    "jobRole",
+    "minJdSalary"
+  ];
+
+  console.log("herE", filterOptions);
   return (
     <>
       <div className="filter-container">
-        {filterOptions.map((filter, index) => (
-          <Filter
-            key={index}
-            filterField={filter.value}
-            options={filter.options}
-          />
-        ))}
+        {filterOrder.map((filterField, index) => {
+          const filter = filterOptions.find(
+            (option) => option.value === filterField
+          );
+          console.log("filter", filter);
+          return (
+            <Filter
+              key={index}
+              filterField={filter?.value}
+              options={filter?.options}
+            />
+          );
+        })}
       </div>
       <div className="jobs-container">
         {jobs.map((job, index) => (
