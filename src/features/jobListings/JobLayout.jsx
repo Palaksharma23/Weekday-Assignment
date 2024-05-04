@@ -10,6 +10,7 @@ function JobLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [filterOptions, setFilterOptions] = useState([]);
+  const [totalCount, setTotalCount] = useState(20); // New state for totalCount
 
   const handleScroll = () => {
     const scrollThreshold = 100; // Adjust as needed
@@ -26,6 +27,10 @@ function JobLayout() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (totalCount && page * 10 > totalCount) {
+          console.log("Data Completed");
+          return;
+        }
         console.log("running....");
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -89,6 +94,11 @@ function JobLayout() {
           })),
         }));
         setFilterOptions(filterOptions);
+
+        // Update totalCount if available in the response
+        if (data.totalCount) {
+          setTotalCount(data.totalCount);
+        }
       } catch (error) {
         console.error(error);
         setIsLoading(false); // Set loading state to false in case of error
