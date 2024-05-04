@@ -50,7 +50,7 @@ function JobLayout() {
 
         const data = await response.json();
         const newJobs = data.jdList;
-        console.log(newJobs);
+        console.log("hi", newJobs);
         setJobs((prevJobs) => [...prevJobs, ...newJobs]); // Append new jobs to existing jobs
         setIsLoading(false); // Set loading state to false
 
@@ -74,15 +74,19 @@ function JobLayout() {
             }
           });
         });
-        const filterOptions = Object.keys(options)
-          .map((key) => ({
-            value: key,
-            label: key.charAt(0).toUpperCase() + key.slice(1),
-            options: Array.from(options[key]).map((option) => ({
-              value: option,
-              label: option,
-            })),
-          }));
+
+        // Add static filter options
+        options["type"] = new Set(["Remote", "Onsite"]);
+        options["techStack"] = new Set(["React", "Vue", "Angular"]);
+
+        const filterOptions = Object.keys(options).map((key) => ({
+          value: key,
+          label: key.charAt(0).toUpperCase() + key.slice(1),
+          options: Array.from(options[key]).map((option) => ({
+            value: option,
+            label: option,
+          })),
+        }));
         setFilterOptions(filterOptions);
       } catch (error) {
         console.error(error);
@@ -103,6 +107,8 @@ function JobLayout() {
     "minExp",
     "companyName",
     "location",
+    "type",
+    "techStack",
     "jobRole",
     "minJdSalary"
   ];
@@ -111,19 +117,20 @@ function JobLayout() {
   return (
     <>
       <div className="filter-container">
-        {filterOrder.map((filterField, index) => {
-          const filter = filterOptions.find(
-            (option) => option.value === filterField
-          );
-          console.log("filter", filter);
-          return (
-            <Filter
-              key={index}
-              filterField={filter?.value}
-              options={filter?.options}
-            />
-          );
-        })}
+        {filterOptions.length !== 0 &&
+          filterOrder.map((filterField, index) => {
+            const filter = filterOptions.find(
+              (option) => option.value === filterField
+            );
+            console.log("filter", filter);
+            return (
+              <Filter
+                key={index}
+                filterField={filter?.value}
+                options={filter?.options}
+              />
+            );
+          })}
       </div>
       <div className="jobs-container">
         {jobs.map((job, index) => (
