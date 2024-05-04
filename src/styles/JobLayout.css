@@ -1,0 +1,6 @@
+.jobs-container {
+    margin: 2px 21px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
