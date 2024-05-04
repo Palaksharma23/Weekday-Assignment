@@ -10,7 +10,7 @@ function JobLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [filterOptions, setFilterOptions] = useState([]);
-  const [totalCount, setTotalCount] = useState(20); // New state for totalCount
+  const [totalCount, setTotalCount] = useState(null); // New state for totalCount
 
   const handleScroll = () => {
     const scrollThreshold = 100; // Adjust as needed
@@ -27,7 +27,7 @@ function JobLayout() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (totalCount && page * 10 > totalCount) {
+        if (totalCount !== null && page * 10 > totalCount) {
           console.log("Data Completed");
           return;
         }
@@ -68,10 +68,10 @@ function JobLayout() {
               key !== "jdUid" &&
               key !== "jdLink" &&
               key !== "logoUrl" &&
-              key != "jobDetailsFromCompany" &&
-              key != "salaryCurrencyCode" &&
-              key != "maxJdSalary" &&
-              key != "maxExp"
+              key !== "jobDetailsFromCompany" &&
+              key !== "salaryCurrencyCode" &&
+              key !== "maxJdSalary" &&
+              key !== "maxExp"
             ) {
               if (!options[key]) {
                 options[key] = new Set();
@@ -81,19 +81,60 @@ function JobLayout() {
           });
         });
 
-        // Add static filter options
-        options["type"] = new Set(["Remote", "Onsite"]);
-        options["techStack"] = new Set(["React", "Vue", "Angular"]);
+        // Initialize filterOptions if it's empty
+        if (filterOptions.length === 0) {
+          const updatedFilterOptions = Object.keys(options).map((key) => ({
+            value: key,
+            label: key.charAt(0).toUpperCase() + key.slice(1),
+            options: Array.from(options[key]).map((option) => ({
+              value: option,
+              label: option,
+            })),
+          }));
 
-        const filterOptions = Object.keys(options).map((key) => ({
-          value: key,
-          label: key.charAt(0).toUpperCase() + key.slice(1),
-          options: Array.from(options[key]).map((option) => ({
-            value: option,
-            label: option,
-          })),
-        }));
-        setFilterOptions(filterOptions);
+          // Add static filter options if they don't exist
+          updatedFilterOptions.push({
+            value: "type",
+            label: "Type",
+            options: ["Remote", "Onsite"].map((option) => ({
+              value: option,
+              label: option,
+            })),
+          });
+          updatedFilterOptions.push({
+            value: "techStack",
+            label: "Tech Stack",
+            options: ["React", "Vue", "Angular"].map((option) => ({
+              value: option,
+              label: option,
+            })),
+          });
+
+          setFilterOptions(updatedFilterOptions);
+        } else {
+          // Merge new options with existing ones in filterOptions
+          const updatedFilterOptions = filterOptions.map((filterOption) => {
+            if (options[filterOption.value]) {
+              // Convert the existing options to a set for easy filtering of duplicates
+              const existingOptionsSet = new Set(
+                filterOption.options.map((option) => option.value)
+              );
+
+              // Filter out duplicates and convert them to objects with the required structure
+              const uniqueOptions = Array.from(options[filterOption.value])
+                .filter((option) => !existingOptionsSet.has(option))
+                .map((option) => ({ value: option, label: option }));
+
+              return {
+                ...filterOption,
+                options: [...filterOption.options, ...uniqueOptions],
+              };
+            }
+            return filterOption;
+          });
+
+          setFilterOptions(updatedFilterOptions);
+        }
 
         // Update totalCount if available in the response
         if (data.totalCount) {
@@ -106,7 +147,7 @@ function JobLayout() {
     };
 
     fetchData();
-  }, [page]); // Fetch data whenever page state changes
+  }, [page, totalCount]); // Fetch data whenever page state changes
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -118,13 +159,12 @@ function JobLayout() {
     "minExp",
     "companyName",
     "location",
+
     "type",
     "techStack",
     "jobRole",
     "minJdSalary",
   ];
-
-  console.log("herE", filterOptions);
 
   const [searchParams] = useSearchParams(); // Access URL search params
 
@@ -148,23 +188,23 @@ function JobLayout() {
     return tempJobs;
   }, [jobs, searchParams]);
 
+  console.log("pi", filterOptions);
   return (
     <>
       <div className="filter-container">
-        {filterOptions.length !== 0 &&
-          filterOrder.map((filterField, index) => {
-            const filter = filterOptions.find(
-              (option) => option.value === filterField
-            );
-            console.log("filter", filter);
-            return (
-              <Filter
-                key={index}
-                filterField={filter?.value}
-                options={filter?.options}
-              />
-            );
-          })}
+        {filterOrder.map((filterField, index) => {
+          const filter = filterOptions.find(
+            (option) => option.value === filterField
+          );
+          console.log("filter", filter);
+          return filter ? (
+            <Filter
+              key={index}
+              filterField={filter.value}
+              options={filter.options}
+            />
+          ) : null;
+        })}
       </div>
       <div className="jobs-container">
         {filteredJobs.map((job, index) => (
