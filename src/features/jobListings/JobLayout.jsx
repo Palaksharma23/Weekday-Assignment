@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from "react";
 import CardItem from "./CardItem";
+import Filter from "../../ui/Filter";
 import "./../../styles/JobLayout.css";
+import "./../../styles/Filter.css";
 
 function JobLayout() {
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      setPage((page) => page + 1);
-    }
-  };
+const handleScroll = () => {
+  const scrollThreshold = 100; // Adjust as needed
+  const scrolledToBottom =
+    window.innerHeight + window.pageYOffset >=
+    document.body.offsetHeight - scrollThreshold;
+
+  if (scrolledToBottom) {
+    console.log("Reached bottom of page");
+    setPage((page) => page + 1);
+  }
+};
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("running....");
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -42,7 +50,6 @@ function JobLayout() {
         }
 
         const data = await response.json();
-        // Extract the array of jobs from the response
         const newJobs = data.jdList;
         console.log(newJobs);
         setJobs((prevJobs) => [...prevJobs, ...newJobs]); // Append new jobs to existing jobs
@@ -62,12 +69,79 @@ function JobLayout() {
   }, []);
 
   return (
-    <div className="jobs-container">
-      {jobs.map((job, index) => (
-        <CardItem key={index} job={job} />
-      ))}
-      {isLoading && <div>Loading...</div>}
-    </div>
+    <>
+      <div className="filter-container">
+        <Filter
+          filterField="mixexp"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="companyname"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="location"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="type"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="techstack"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="role"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+        <Filter
+          filterField="minbasepay"
+          options={[
+            { value: "all", label: "All" },
+            { value: "checked-out", label: "Checked out" },
+            { value: "checked-in", label: "Checked in" },
+            { value: "unconfirmed", label: "Unconfirmed" },
+          ]}
+        />
+      </div>
+      <div className="jobs-container">
+        {jobs.map((job, index) => (
+          <CardItem key={index} job={job} />
+        ))}
+        {isLoading && <div>Loading...</div>}
+      </div>
+    </>
   );
 }
 
