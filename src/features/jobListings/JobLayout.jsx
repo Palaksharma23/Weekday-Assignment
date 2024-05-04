@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import CardItem from "./CardItem";
 import Filter from "../../ui/Filter";
 import "./../../styles/JobLayout.css";
 import "./../../styles/Filter.css";
+import { useSearchParams } from "react-router-dom";
 
 function JobLayout() {
   const [jobs, setJobs] = useState([]);
@@ -110,10 +111,33 @@ function JobLayout() {
     "type",
     "techStack",
     "jobRole",
-    "minJdSalary"
+    "minJdSalary",
   ];
 
   console.log("herE", filterOptions);
+
+  const [searchParams] = useSearchParams(); // Access URL search params
+
+  const filteredJobs = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const tempJobs = jobs.filter((job) => {
+      let includeJob = true;
+      filterOrder.forEach((filterField) => {
+        const filterValue = params.get(filterField);
+        if (filterValue && job[filterField] !== filterValue) {
+          includeJob = false;
+        }
+      });
+      return includeJob;
+    });
+
+    if (!tempJobs.length) {
+      setPage((page) => page + 1);
+    }
+
+    return tempJobs;
+  }, [jobs, searchParams]);
+
   return (
     <>
       <div className="filter-container">
@@ -133,7 +157,7 @@ function JobLayout() {
           })}
       </div>
       <div className="jobs-container">
-        {jobs.map((job, index) => (
+        {filteredJobs.map((job, index) => (
           <CardItem key={index} job={job} />
         ))}
         {isLoading && <div>Loading...</div>}
