@@ -8,20 +8,19 @@ function JobLayout() {
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
+  const [filterOptions, setFilterOptions] = useState([]);
 
-const handleScroll = () => {
-  const scrollThreshold = 100; // Adjust as needed
-  const scrolledToBottom =
-    window.innerHeight + window.pageYOffset >=
-    document.body.offsetHeight - scrollThreshold;
+  const handleScroll = () => {
+    const scrollThreshold = 100; // Adjust as needed
+    const scrolledToBottom =
+      window.innerHeight + window.pageYOffset >=
+      document.body.offsetHeight - scrollThreshold;
 
-  if (scrolledToBottom) {
-    console.log("Reached bottom of page");
-    setPage((page) => page + 1);
-  }
-};
-
-
+    if (scrolledToBottom) {
+      console.log("Reached bottom of page");
+      setPage((page) => page + 1);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +53,36 @@ const handleScroll = () => {
         console.log(newJobs);
         setJobs((prevJobs) => [...prevJobs, ...newJobs]); // Append new jobs to existing jobs
         setIsLoading(false); // Set loading state to false
+
+        // Extract unique filter options from the data
+        const options = {};
+        newJobs.forEach((job) => {
+          Object.keys(job).forEach((key) => {
+            if (
+              key !== "jdUid" &&
+              key !== "jdLink" &&
+              key !== "logoUrl" &&
+              key != "jobDetailsFromCompany" &&
+              key != "salaryCurrencyCode" &&
+              key != "maxJdSalary" &&
+              key != "maxExp"
+            ) {
+              if (!options[key]) {
+                options[key] = new Set();
+              }
+              if(job[key]) options[key].add(job[key]);
+            }
+          });
+        });
+        const filterOptions = Object.keys(options).map((key) => ({
+          value: key,
+          label: key.charAt(0).toUpperCase() + key.slice(1),
+          options: Array.from(options[key]).map((option) => ({
+            value: option,
+            label: option,
+          })),
+        }));
+        setFilterOptions(filterOptions);
       } catch (error) {
         console.error(error);
         setIsLoading(false); // Set loading state to false in case of error
@@ -71,69 +100,13 @@ const handleScroll = () => {
   return (
     <>
       <div className="filter-container">
-        <Filter
-          filterField="mixexp"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="companyname"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="location"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="type"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="techstack"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="role"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
-        <Filter
-          filterField="minbasepay"
-          options={[
-            { value: "all", label: "All" },
-            { value: "checked-out", label: "Checked out" },
-            { value: "checked-in", label: "Checked in" },
-            { value: "unconfirmed", label: "Unconfirmed" },
-          ]}
-        />
+        {filterOptions.map((filter, index) => (
+          <Filter
+            key={index}
+            filterField={filter.value}
+            options={filter.options}
+          />
+        ))}
       </div>
       <div className="jobs-container">
         {jobs.map((job, index) => (
