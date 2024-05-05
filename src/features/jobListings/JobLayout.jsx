@@ -101,6 +101,25 @@ function JobLayout() {
                   label: option.toString(),
                 })),
               };
+            } else if (key === "minJdSalary") {
+              // Find the maximum value in the minJdSalary options
+              const maxMinJdSalary = Math.floor(
+                Math.max(...Array.from(options[key])) / 10
+              );
+              // Generate an array with steps of 10
+              const minJdSalaryOptions = Array.from(
+                { length: maxMinJdSalary + 1 },
+                (_, index) => index * 10
+              );
+              // Create the filter option for minJdSalary with the sorted array
+              return {
+                value: key,
+                label: key.charAt(0).toUpperCase() + key.slice(1),
+                options: minJdSalaryOptions.map((option) => ({
+                  value: option,
+                  label: option.toString(),
+                })),
+              };
             } else {
               return {
                 value: key,
@@ -158,6 +177,23 @@ function JobLayout() {
                 return {
                   ...filterOption,
                   options: minExpOptions.map((option) => ({
+                    value: option,
+                    label: option.toString(),
+                  })),
+                };
+              }
+              // If the filter option is "minJdSalary", generate an array with steps of 10
+              else if (filterOption.value === "minJdSalary") {
+                const maxMinJdSalary = Math.floor(
+                  Math.max(...Array.from(options[filterOption.value])) / 10
+                );
+                const minJdSalaryOptions = Array.from(
+                  { length: maxMinJdSalary + 1 },
+                  (_, index) => index * 10
+                );
+                return {
+                  ...filterOption,
+                  options: minJdSalaryOptions.map((option) => ({
                     value: option,
                     label: option.toString(),
                   })),
