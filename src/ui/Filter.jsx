@@ -1,18 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import "./../styles/Filter.css"; // Import CSS file for styling
+import "./../styles/Filter.css";
 
 function Filter({ filterField, options }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility
-  const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
+  // State to manage dropdown visibility
+  const [isOpen, setIsOpen] = useState(false);
+  // State to manage search term
+  const [searchTerm, setSearchTerm] = useState("");
   const currentFilter = searchParams.get(filterField) || options?.[0]?.value;
-  const dropdownRef = useRef(null); // Ref for dropdown container
+  // Ref for dropdown container
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    if (searchParams.get(filterField))
+    if (searchParams.get(filterField)) {
       setSearchTerm(searchParams.get(filterField));
-  }, []);
+    } else {
+      setSearchTerm("");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     // Function to close dropdown when clicking outside of it
@@ -31,7 +37,7 @@ function Filter({ filterField, options }) {
 
   // Function to handle option selection
   const handleOptionSelect = (value) => {
-    setSearchTerm(String(value)); // Clear the search term
+    setSearchTerm(String(value));
     setSearchParams(searchParams);
     setIsOpen(false); // Close the dropdown after selection
     searchParams.set(filterField, value);
@@ -74,7 +80,7 @@ function Filter({ filterField, options }) {
         className={`select-wrapper ${isOpen ? "open" : ""}`}
         ref={dropdownRef}
       >
-        {/* Render text or span element based on search term */}
+        {/* Rendering span element based on search term */}
         {searchTerm && (
           <span className="placeholder">{placeholder(filterField)}</span>
         )}
@@ -90,8 +96,8 @@ function Filter({ filterField, options }) {
           <div
             className="clear-input"
             onClick={() => {
-              setSearchTerm(""); // Clear the search term
-              searchParams.delete(filterField); // Remove the parameter from the URL
+              setSearchTerm(""); // Clearing the search term
+              searchParams.delete(filterField); // Removing the parameter from the URL
               setSearchParams(searchParams);
             }}
           >
@@ -99,8 +105,7 @@ function Filter({ filterField, options }) {
           </div>
         )}
         <div className="arrow-down" onClick={toggleDropdown}></div>{" "}
-        {/* Dropdown arrow */}
-        <div className="divider"></div> {/* Divider line */}
+        <div className="divider"></div>
         {isOpen && (
           <ul className="options-list">
             {filteredOptions.map((option) => (

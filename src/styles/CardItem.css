@@ -9,6 +9,7 @@
   width: 26%;
   margin: 14px 0;
   font-family: "Lexend", sans-serif;
+  min-height: 505px;
 }
 
 .card-image {

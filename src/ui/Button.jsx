@@ -3,8 +3,10 @@ import "./../styles/Button.css";
 
 function Button({ children, backgroundColor, color, type }) {
   const buttonStyle = {
+    // Setting default backgroundColor if prop is not provided
     backgroundColor: backgroundColor || "rgb(85, 239, 196)",
-    color: color || "white", // Set default color if prop is not provided
+    // Setting default color if prop is not provided
+    color: color || "white",
   };
 
   return (

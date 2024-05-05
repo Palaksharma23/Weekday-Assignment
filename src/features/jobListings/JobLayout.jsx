@@ -11,16 +11,15 @@ function JobLayout() {
   const [page, setPage] = useState(0);
   const [filterOptions, setFilterOptions] = useState([]);
   const [dataCompleted, setDataCompleted] = useState(false);
-  const [totalCount, setTotalCount] = useState(null); // New state for totalCount
+  const [totalCount, setTotalCount] = useState(null);
 
   const handleScroll = () => {
-    const scrollThreshold = 100; // Adjust as needed
+    const scrollThreshold = 100;
     const scrolledToBottom =
       window.innerHeight + window.pageYOffset >=
       document.body.offsetHeight - scrollThreshold;
 
     if (scrolledToBottom) {
-      console.log("Reached bottom of page");
       setPage((page) => page + 1);
     }
   };
@@ -32,16 +31,14 @@ function JobLayout() {
         if (totalCount !== null && page * 10 > totalCount) {
           setIsLoading(false);
           setDataCompleted(true);
-          console.log("Data Completed");
           return;
         }
-        console.log("running....");
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         const body = JSON.stringify({
           limit: 10,
-          offset: page * 10, // Adjust offset based on page
+          offset: page * 10, // Adjusting offset based on page
         });
 
         const requestOptions = {
@@ -60,9 +57,10 @@ function JobLayout() {
 
         const data = await response.json();
         const newJobs = data.jdList;
-        console.log("hi", newJobs);
-        setJobs((prevJobs) => [...prevJobs, ...newJobs]); // Append new jobs to existing jobs
-        setIsLoading(false); // Set loading state to false
+        // Appending new jobs to existing jobs
+        setJobs((prevJobs) => [...prevJobs, ...newJobs]);
+        // Setting loading state to false
+        setIsLoading(false);
 
         // Extract unique filter options from the data
         const options = {};
@@ -85,18 +83,17 @@ function JobLayout() {
           });
         });
 
-        // Initialize filterOptions if it's empty
+        // Initializing filterOptions if it's empty
         if (filterOptions.length === 0) {
           const updatedFilterOptions = Object.keys(options).map((key) => {
             if (key === "minExp") {
-              // Find the maximum value in the minExp options
+              // Finding the maximum value in the minExp options
               const maxMinExp = Math.max(...Array.from(options[key]));
-              // Generate an array from 1 to the maximum value
+              // Generating an array from 1 to the maximum value
               const minExpOptions = Array.from(
                 { length: maxMinExp + 1 },
                 (_, index) => index
               );
-              // Create the filter option for minExp with the sorted array
               return {
                 value: key,
                 label: key.charAt(0).toUpperCase() + key.slice(1),
@@ -106,16 +103,15 @@ function JobLayout() {
                 })),
               };
             } else if (key === "minJdSalary") {
-              // Find the maximum value in the minJdSalary options
+              // Finding the maximum value in the minJdSalary options
               const maxMinJdSalary = Math.floor(
                 Math.max(...Array.from(options[key])) / 10
               );
-              // Generate an array with steps of 10
+              // Generating an array with steps of 10
               const minJdSalaryOptions = Array.from(
                 { length: maxMinJdSalary + 1 },
                 (_, index) => index * 10
               );
-              // Create the filter option for minJdSalary with the sorted array
               return {
                 value: key,
                 label: key.charAt(0).toUpperCase() + key.slice(1),
@@ -136,7 +132,7 @@ function JobLayout() {
             }
           });
 
-          // Add static filter options if they don't exist
+          // Adding static filter options as they don't exist initially
           updatedFilterOptions.push({
             value: "type",
             label: "Type",
@@ -156,20 +152,20 @@ function JobLayout() {
 
           setFilterOptions(updatedFilterOptions);
         } else {
-          // Merge new options with existing ones in filterOptions
+          // Merging new options with existing ones in filterOptions
           const updatedFilterOptions = filterOptions.map((filterOption) => {
             if (options[filterOption.value]) {
-              // Convert the existing options to a set for easy filtering of duplicates
+              // Converting the existing options to a set for easy filtering of duplicates
               const existingOptionsSet = new Set(
                 filterOption.options.map((option) => option.value)
               );
 
-              // Filter out duplicates and convert them to objects with the required structure
+              // Filtering out duplicates and converting them to objects with the required structure
               const uniqueOptions = Array.from(options[filterOption.value])
                 .filter((option) => !existingOptionsSet.has(option))
                 .map((option) => ({ value: option, label: option }));
 
-              // If the filter option is "minExp", generate an array from 1 to the maximum value
+              // If the filter option is "minExp", generating an array from 1 to the maximum value
               if (filterOption.value === "minExp") {
                 const maxMinExp = Math.max(
                   ...Array.from(options[filterOption.value])
@@ -186,7 +182,7 @@ function JobLayout() {
                   })),
                 };
               }
-              // If the filter option is "minJdSalary", generate an array with steps of 10
+              // If the filter option is "minJdSalary", generating an array with steps of 10
               else if (filterOption.value === "minJdSalary") {
                 const maxMinJdSalary = Math.floor(
                   Math.max(...Array.from(options[filterOption.value])) / 10
@@ -215,18 +211,19 @@ function JobLayout() {
           setFilterOptions(updatedFilterOptions);
         }
 
-        // Update totalCount if available in the response
+        // Updating totalCount using the response
         if (data.totalCount) {
           setTotalCount(data.totalCount);
         }
       } catch (error) {
         console.error(error);
-        setIsLoading(false); // Set loading state to false in case of error
+        // Setting loading state to false in case of error
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [page, totalCount]); // Fetch data whenever page state changes
+  }, [page, totalCount]); // Fetching data whenever page state changes
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -244,7 +241,7 @@ function JobLayout() {
     "minJdSalary",
   ];
 
-  const [searchParams] = useSearchParams(); // Access URL search params
+  const [searchParams] = useSearchParams(); // Accessing the URL search params
 
   const filteredJobs = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -293,7 +290,6 @@ function JobLayout() {
     return tempJobs;
   }, [jobs, searchParams]);
 
-  console.log("pi", filterOptions);
   return (
     <>
       <div className="filters">
@@ -301,7 +297,6 @@ function JobLayout() {
           const filter = filterOptions.find(
             (option) => option.value === filterField
           );
-          console.log("filter", filter);
           return filter ? (
             <Filter
               key={index}

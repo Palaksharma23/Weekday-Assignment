@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Tag from "../../ui/Tag";
-import AboutCompany from "./AboutCompany";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import "../../styles/CardItem.css";
@@ -25,32 +24,46 @@ function CardItem({ job }) {
     <div className="card">
       <Tag type="Primary" tag={"Posted 6 days ago"}></Tag>
       <div className="companyinfo-container">
-        <img className="card-image" src={job.logoUrl} alt={job.companyName} />
+        <img
+          className="card-image"
+          src={job.logoUrl || "/CompanyDefault.png"}
+          alt={job.companyName || "companyTitle"}
+        />
         <div className="company-info">
           <div>{job.companyName}</div>
-          <div className="job-role">{capitalize(job.jobRole)}</div>
-          <div className="job-location">{capitalize(job.location)}</div>
+          <div className="job-role">{capitalize(job.jobRole) || " "}</div>
+          <div className="job-location">{capitalize(job.location) || " "}</div>
 
           {/* Render either truncated or full job details based on showFullDetails state */}
         </div>
       </div>
-      <div className="job-salary">
-        Estimated Salary: ₹{job.minJdSalary} - {job.maxJdSalary}{" "}
-        {job.salaryCurrencyCode} ✅
-      </div>
-      <div className="job-about-company">About Company:</div>
-      <div className="job-about-us">About Us</div>
-      <p className="job-about">
-        {job.jobDetailsFromCompany.slice(0, 300) + "..."}
-        {
-          <button className="viewmore-button" onClick={toggleFullDetails}>
-            View Job
-          </button>
-        }
-      </p>
+      {job.minJdSalary && job.maxJdSalary && (
+        <div className="job-salary">
+          Estimated Salary: ₹{job.minJdSalary} - {job.maxJdSalary}{" "}
+          {job.salaryCurrencyCode} ✅
+        </div>
+      )}
+      {job.jobDetailsFromCompany && (
+        <>
+          <div className="job-about-company">About Company:</div>
+          <div className="job-about-us">About Us</div>
+          <p className="job-about">
+            {job.jobDetailsFromCompany.slice(0, 300) + "..."}
+            {
+              <button className="viewmore-button" onClick={toggleFullDetails}>
+                View Job
+              </button>
+            }
+          </p>
+        </>
+      )}
 
-      <div className="job-minExp">Minimum Experience</div>
-      <div className="job-minExp-value">{job.minExp} years</div>
+      {job.minExp && (
+        <>
+          <div className="job-minExp">Minimum Experience</div>
+          <div className="job-minExp-value">{job.minExp} years</div>
+        </>
+      )}
 
       <Button color={"black"} type={"easy-apply"}>
         ⚡ Easy Apply
