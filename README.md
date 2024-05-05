@@ -81,13 +81,25 @@ Features of this app:
 <table>
   <tr>
       <td>Filtered Job Cards Listing</td>
+          <td>Search Company Name Filter</td>
+  </tr>
+  <tr>
+  <td><img src="./Readme Images/3.png" alt="screely-1677925542185" border="0">
+</td>
+<td>
+<img src="./Readme Images/4.png" alt="screely-1677924790571" border="0"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+      <td>View More Modal</td>
     <td>Page not found</td>
   </tr>
   <tr>
-  <td><img src="https://i.ibb.co/P6h3q4R/screely-1714921033417.png" alt="screely-1677925542185" border="0">
+  <td><img src="./Readme Images/5.png" alt="screely-1677925542185" border="0">
 </td>
     <td>
-<img src="https://i.ibb.co/3ShbR62/screely-1714921264006.png" alt="screely-1677924790571" border="0"></td>
+<img src="./Readme Images/6.png" alt="screely-1677924790571" border="0"></td>
   </tr>
 </table>
 
