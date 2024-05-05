@@ -1,6 +1,7 @@
 
 
 
+
 <h1 align="center"> Weekday Assignment </h1> 
 <p align="center">
   A dynamic React based Job searching app.
@@ -72,19 +73,31 @@ Features of this app:
   </tr>
   <tr>
     <td>
-   <img src="https://i.ibb.co/HrZRQ9L/screely-1714920677581.png" border="0">
+   <img src="https://i.ibb.co/yPwxB5Z/screely-1714929102055.png" border="0">
     </td>
      <td>
-<img src="https://i.ibb.co/m6HR6k3/screely-1714920762361.png" border="0"></td>
+<img src="https://i.ibb.co/LxgFZk9/screely-1714929159616.png" border="0"></td>
   </tr>
 </table>
 <table>
   <tr>
       <td>Filtered Job Cards Listing</td>
+          <td>Search Company Name Filter</td>
+  </tr>
+  <tr>
+  <td><img src="https://i.ibb.co/SQwppt0/screely-1714929277017.png" alt="screely-1677925542185" border="0">
+</td>
+<td>
+<img src="https://i.ibb.co/zH9q2CY/screely-1714929372623.png" alt="screely-1677924790571" border="0"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+      <td>View More Modal</td>
     <td>Page not found</td>
   </tr>
   <tr>
-  <td><img src="https://i.ibb.co/P6h3q4R/screely-1714921033417.png" alt="screely-1677925542185" border="0">
+  <td><img src="https://i.ibb.co/6ysHQML/screely-1714929447672.png" alt="screely-1677925542185" border="0">
 </td>
     <td>
 <img src="https://i.ibb.co/3ShbR62/screely-1714921264006.png" alt="screely-1677924790571" border="0"></td>
