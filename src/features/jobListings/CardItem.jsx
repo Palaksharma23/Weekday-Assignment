@@ -3,7 +3,7 @@ import Tag from "../../ui/Tag";
 import AboutCompany from "./AboutCompany";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
-import "../../styles/CardItem.css"
+import "../../styles/CardItem.css";
 
 function CardItem({ job }) {
   const [showFullDetails, setShowFullDetails] = useState(false);
@@ -21,6 +21,7 @@ function CardItem({ job }) {
         </div>
         <div>
           <p>{job.jobRole}</p>
+          <p>{job.minExp}</p>
           {/* Render either truncated or full job details based on showFullDetails state */}
           <p>
             {job.jobDetailsFromCompany.slice(0, 100) + "..."}

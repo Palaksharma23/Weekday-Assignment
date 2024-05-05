@@ -247,7 +247,34 @@ function JobLayout() {
     const tempJobs = jobs.filter((job) => {
       let includeJob = true;
       filterOrder.forEach((filterField) => {
+        if (filterField === "techStack") return;
         const filterValue = params.get(filterField);
+        if (filterField === "type" && filterValue === "Remote") {
+          if (job.location === "remote") {
+            includeJob = true;
+            return;
+          }
+        } else if (filterField === "type" && filterValue === "Onsite") {
+          return;
+        }
+        if (filterField === "minExp") {
+          if (job.minExp && job.minExp >= +filterValue) {
+            includeJob = true;
+            return;
+          }
+        }
+        if (filterField === "minExp") {
+          if (job.minExp && job.minExp >= +filterValue) {
+            includeJob = true;
+            return;
+          }
+        }
+        if (filterField === "minJdSalary") {
+          if (job.minExp && job.minJdSalary >= +filterValue) {
+            includeJob = true;
+            return;
+          }
+        }
         if (filterValue && job[filterField] !== filterValue) {
           includeJob = false;
         }
