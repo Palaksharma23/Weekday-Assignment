@@ -13,9 +13,14 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route
+            element={<AppLayout jobCount={count} setJobCount={setCount} />}
+          >
             <Route index element={<Navigate replace to="search-jobs" />} />
-            <Route path="search-jobs" element={<JobLayout />} />
+            <Route
+              path="search-jobs"
+              element={<JobLayout setJobCount={setCount} />}
+            />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

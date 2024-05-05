@@ -33,3 +33,21 @@ a {
 .header-list a {
   color: black;
 }
+
+.job-count-indicator {
+  position: absolute;
+  top: -7px;
+  right: 5px;
+  background-color: rgb(25, 118, 210);
+  color: #ffffff;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lexend", sans-serif;
+  font-size: sma;
+  font-size: 10px;
+  padding: 1px;
+}

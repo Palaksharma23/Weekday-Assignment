@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import React from "react";
 import HeaderComp from "./HeaderComp";
 
-function AppLayout() {
+function AppLayout({ jobCount, setJobCount }) {
   return (
     <div>
-      <HeaderComp></HeaderComp>
+      <HeaderComp jobCount={jobCount} />
       <Outlet />
     </div>
   );

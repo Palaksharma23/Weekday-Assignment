@@ -11,7 +11,7 @@ import {
 } from "../../utils/filterUtils";
 import Spinner from "../../ui/Spinner";
 
-function JobLayout() {
+function JobLayout({ setJobCount }) {
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -177,6 +177,10 @@ function JobLayout() {
   const searchedJobs = searchQuery
     ? filterByCompanyName(filteredJobs, searchQuery)
     : filteredJobs;
+
+  useEffect(() => {
+    setJobCount(searchedJobs.length);
+  }, [searchedJobs]);
 
   return (
     <>
