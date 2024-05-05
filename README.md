@@ -75,7 +75,7 @@ Features of this app:
    <img src="./Readme Images/1.png" border="0">
     </td>
      <td>
-<img src="https://i.ibb.co/m6HR6k3/screely-1714920762361.png" border="0"></td>
+<img src="./Readme Images/2.png" border="0"></td>
   </tr>
 </table>
 <table>
