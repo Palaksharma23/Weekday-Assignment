@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import Tag from "../../ui/Tag";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
@@ -7,19 +7,21 @@ import "../../styles/CardItem.css";
 function CardItem({ job }) {
   const [showFullDetails, setShowFullDetails] = useState(false);
 
-  const toggleFullDetails = () => {
-    setShowFullDetails(!showFullDetails);
-  };
+  const toggleFullDetails = useCallback(() => {
+    setShowFullDetails((prev) => !prev);
+  }, []);
 
-  const capitalize = (word) => {
-    const words = word.split(" ");
+  const capitalize = useMemo(() => {
+    return (word) => {
+      const words = word.split(" ");
+      return words
+        .map((word) => {
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(" ");
+    };
+  }, []);
 
-    return words
-      .map((word) => {
-        return word[0].toUpperCase() + word.substring(1);
-      })
-      .join(" ");
-  };
   return (
     <div className="card">
       <Tag type="Primary" tag={"Posted 6 days ago"}></Tag>
@@ -33,14 +35,12 @@ function CardItem({ job }) {
           <div>{job.companyName}</div>
           <div className="job-role">{capitalize(job.jobRole) || " "}</div>
           <div className="job-location">{capitalize(job.location) || " "}</div>
-
-          {/* Render either truncated or full job details based on showFullDetails state */}
         </div>
       </div>
       {job.minJdSalary && job.maxJdSalary && (
         <div className="job-salary">
-          Estimated Salary: ₹{job.minJdSalary} - {job.maxJdSalary}{" "}
-          {job.salaryCurrencyCode} ✅
+          Estimated Salary: {job.salaryCurrencyCode || "₹"} {job.minJdSalary} -{" "}
+          {job.maxJdSalary} ✅
         </div>
       )}
       {job.jobDetailsFromCompany && (
@@ -70,11 +70,19 @@ function CardItem({ job }) {
       </Button>
       <Button backgroundColor={"blue"}>
         <span className="image-span">
-          <img className="profile-image" src="/Profile 1.jpg"></img>
+          <img
+            className="profile-image"
+            src="/Profile 1.jpg"
+            alt="Profile 1"
+          ></img>
           <span className="green-circle"></span>
         </span>
         <span className="image-span">
-          <img className="profile-image" src="/Profile 2.jpg"></img>
+          <img
+            className="profile-image"
+            src="/Profile 2.jpg"
+            alt="Profile 2"
+          ></img>
           <span className="green-circle"></span>
         </span>
         Unlock Referral asks
