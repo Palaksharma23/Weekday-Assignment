@@ -122,3 +122,9 @@ input {
   background: white;
   left: 5%;
 }
+
+.clear-input {
+  position: absolute;
+  top: 14%;
+  right: 2px;
+}

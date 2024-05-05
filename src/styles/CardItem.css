@@ -4,15 +4,16 @@
   justify-content: space-between;
   height: 100%;
   border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 4px 0px !important;
   padding: 22px;
   width: 26%;
   margin: 14px 0;
-  border: 2px solid grey;
+  font-family: "Lexend", sans-serif;
 }
 
 .card-image {
-  width: 58px;
-  height: 58px;
+  width: 53px;
+  height: 53px;
 }
 
 .companyinfo-container {
@@ -21,18 +22,37 @@
 }
 
 .company-info {
-  margin: 2px 8px;
+  margin: 0 8px;
 }
 
 .job-role {
-  margin-top: 15px;
-  margin-bottom: 2px;
+  margin-top: 12px;
+  margin-bottom: 7px;
+  font-weight: 350;
 }
 
 .job-about {
   position: relative;
+  font-weight: 300;
+  font-size: 14px;
+  margin-top: 1px;
 }
 
+.job-about-us {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.job-about-company {
+  font-size: 17px;
+  font-weight: 400;
+  margin: 12px 0 3px;
+}
+
+.job-location {
+  font-size: 14px;
+  margin: 0 0 17px;
+}
 .viewmore-button {
   display: block;
   width: 100%;
@@ -40,11 +60,22 @@
   opacity: -2.5px;
   color: blue;
   position: absolute;
-  bottom: 4px;
+  bottom: 10px;
   padding: 6px 4px;
   border: none;
   box-shadow: 2px solid orange;
-  box-shadow: 0px 0px 21px 11px white;
+  box-shadow: 0px 5px 21px 17px white;
+}
+
+.easy-apply {
+  font-size: large;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.job-salary {
+  color: grey;
+  font-size: 16px;
 }
 /* 425 100%
 768 px as it is
@@ -67,4 +98,44 @@
   .card {
     width: 40%;
   }
+}
+
+.card {
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+img.profile-image {
+  width: 26px;
+  height: 26px;
+  margin: 0px 3px;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.image-span {
+  position: relative;
+}
+.green-circle {
+  width: 8px;
+  height: 10px;
+  background-color: rgb(85, 239, 196);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  bottom: 3px;
+  right: 4px;
+  filter: blur(1px);
+}
+
+.job-minExp {
+  font-weight: 300;
+  color: grey;
+}
+
+.job-minExp-value {
+  margin: 7px 0px 12px;
 }

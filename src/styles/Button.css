@@ -1,7 +1,7 @@
 .primary-btn {
   width: 100%;
-  background: rgb(85, 239, 196);
-  padding: 12px 4px;
+  height: 44px;
+  /* padding: 12px 4px; */
   align-items: center;
   margin: auto;
   display: flex;
@@ -9,4 +9,5 @@
   border-radius: 5px;
   justify-content: center;
   margin: 5px 0;
+  cursor: pointer;
 }
