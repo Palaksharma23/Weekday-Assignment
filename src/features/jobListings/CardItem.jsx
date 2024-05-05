@@ -12,29 +12,46 @@ function CardItem({ job }) {
     setShowFullDetails(!showFullDetails);
   };
 
+  const capitalize = (word) => {
+    const words = word.split(" ");
+
+    return words
+      .map((word) => {
+        return word[0].toUpperCase() + word.substring(1);
+      })
+      .join(" ");
+  };
   return (
     <div className="card">
-      <Tag type="Primary">{job.companyName}</Tag>
-      <div>
-        <div>
-          <img src={job.logoUrl} alt={job.companyName} />
-        </div>
-        <div>
-          <p>{job.jobRole}</p>
-          <p>{job.minExp}</p>
+      <Tag type="Primary" tag={"Posted 6 days ago"}></Tag>
+      <div className="companyinfo-container">
+        <img className="card-image" src={job.logoUrl} alt={job.companyName} />
+        <div className="company-info">
+          <div>{job.companyName}</div>
+          <div className="job-role">{capitalize(job.jobRole)}</div>
+          <div>{job.location}</div>
+
           {/* Render either truncated or full job details based on showFullDetails state */}
-          <p>
-            {job.jobDetailsFromCompany.slice(0, 100) + "..."}
-            {<button onClick={toggleFullDetails}>View More</button>}
-          </p>
         </div>
       </div>
-      <p>{job.location}</p>
-      <p>
+      <div>
         Estimated Salary: {job.minJdSalary} - {job.maxJdSalary}{" "}
-        {job.salaryCurrencyCode} 🎫
+        {job.salaryCurrencyCode} ✅
+      </div>
+      <div>About Company</div>
+      <div>About Us</div>
+      <p className="job-about">
+        {job.jobDetailsFromCompany.slice(0, 500) + "..."}
+        {
+          <button className="viewmore-button" onClick={toggleFullDetails}>
+            View More
+          </button>
+        }
       </p>
-      <AboutCompany />
+
+      <div>Minimum Experience</div>
+      <div>{job.minExp}</div>
+
       <Button>Easy Apply</Button>
       <Button>Unlock Referral asks</Button>
       {/* Render modal only if showFullDetails is true */}

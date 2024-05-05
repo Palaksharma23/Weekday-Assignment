@@ -1,0 +1,11 @@
+.tag {
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 9px;
+  /* float: left; */
+  width: fit-content;
+  border: 1px solid grey;
+  border-radius: 23px;
+  padding: 2px 9px;
+  margin: 4px 8px;
+}

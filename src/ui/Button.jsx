@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import "./../styles/Button.css";
 
-function Button() {
-  return (
-    <div>Button</div>
-  )
+function Button({ children }) {
+  return <button className="primary-btn">{children}</button>;
 }
 
-export default Button
+export default Button;

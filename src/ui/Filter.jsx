@@ -10,16 +10,23 @@ function Filter({ filterField, options }) {
 
   // Function to handle option selection
   const handleOptionSelect = (value) => {
+    setSearchTerm(String(value)); // Clear the search term
+    setSearchParams(searchParams);
+    setIsOpen(false); // Close the dropdown after selection
     searchParams.set(filterField, value);
     if (searchParams.get("page")) searchParams.set("page", 1);
     setSearchParams(searchParams);
-    setIsOpen(false); // Close the dropdown after selection
   };
 
   // Function to handle input change (search)
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
     setIsOpen(true); // Open dropdown when typing
+  };
+
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
   };
 
   // Filter options based on search term
@@ -50,6 +57,9 @@ function Filter({ filterField, options }) {
           onClick={() => setIsOpen(true)}
           placeholder={`${placeholder(filterField)}`}
         />
+        <div className="arrow-down" onClick={toggleDropdown}></div>{" "}
+        {/* Dropdown arrow */}
+        <div className="divider"></div> {/* Divider line */}
         {isOpen && (
           <ul className="options-list">
             {filteredOptions.map((option) => (

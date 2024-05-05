@@ -1,13 +1,13 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
-import "./../styles/Modal.css"
+import "./../styles/Modal.css";
 
 function Modal({ children, onClose }) {
   return createPortal(
     <div className="modal-overlay">
       <div className="modal-style">
-        <button onClick={onClose}>
+        <button className="modal-close-btn" onClick={onClose}>
           <HiXMark />
         </button>
 

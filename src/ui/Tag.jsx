@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import "./../styles/Tag.css";
 
-function Tag() {
-  return (
-    <div>Tag</div>
-  )
+function Tag({ tag }) {
+  return <div className="tag"> ⏳ {tag}</div>;
 }
 
-export default Tag
+export default Tag;
