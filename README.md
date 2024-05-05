@@ -72,7 +72,7 @@ Features of this app:
   </tr>
   <tr>
     <td>
-   <img src="https://i.ibb.co/HrZRQ9L/screely-1714920677581.png" border="0">
+   <img src="./Readme Images/1.png" border="0">
     </td>
      <td>
 <img src="https://i.ibb.co/m6HR6k3/screely-1714920762361.png" border="0"></td>
