@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./../styles/Filter.css"; // Import CSS file for styling
 
@@ -7,6 +7,11 @@ function Filter({ filterField, options }) {
   const [isOpen, setIsOpen] = useState(false); // State to manage dropdown visibility
   const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
   const currentFilter = searchParams.get(filterField) || options?.[0]?.value;
+
+  useEffect(() => {
+    if (searchParams.get(filterField))
+      setSearchTerm(searchParams.get(filterField));
+  }, []);
 
   // Function to handle option selection
   const handleOptionSelect = (value) => {
@@ -50,6 +55,10 @@ function Filter({ filterField, options }) {
   return (
     <div className="filter-container">
       <div className={`select-wrapper ${isOpen ? "open" : ""}`}>
+        {/* Render text or span element based on search term */}
+        {searchTerm && (
+          <span className="placeholder">{placeholder(filterField)}</span>
+        )}
         <input
           type="text"
           value={searchTerm}

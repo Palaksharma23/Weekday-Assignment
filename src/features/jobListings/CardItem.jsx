@@ -41,7 +41,7 @@ function CardItem({ job }) {
       <div>About Company</div>
       <div>About Us</div>
       <p className="job-about">
-        {job.jobDetailsFromCompany.slice(0, 500) + "..."}
+        {job.jobDetailsFromCompany.slice(0, 300) + "..."}
         {
           <button className="viewmore-button" onClick={toggleFullDetails}>
             View More

@@ -10,6 +10,7 @@ function JobLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [filterOptions, setFilterOptions] = useState([]);
+  const [dataCompleted, setDataCompleted] = useState(false);
   const [totalCount, setTotalCount] = useState(null); // New state for totalCount
 
   const handleScroll = () => {
@@ -27,7 +28,10 @@ function JobLayout() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         if (totalCount !== null && page * 10 > totalCount) {
+          setIsLoading(false);
+          setDataCompleted(true);
           console.log("Data Completed");
           return;
         }
@@ -292,7 +296,7 @@ function JobLayout() {
   console.log("pi", filterOptions);
   return (
     <>
-      <div className="filter-container">
+      <div className="filters">
         {filterOrder.map((filterField, index) => {
           const filter = filterOptions.find(
             (option) => option.value === filterField
@@ -312,6 +316,12 @@ function JobLayout() {
           <CardItem key={index} job={job} />
         ))}
         {isLoading && <div>Loading...</div>}
+        {dataCompleted && filteredJobs.length !== 0 && (
+          <div>Data Loaded Completely</div>
+        )}
+        {dataCompleted && filteredJobs.length === 0 && (
+          <div>No Jobs available for this category at the moment</div>
+        )}
       </div>
     </>
   );

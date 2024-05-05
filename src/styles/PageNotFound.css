@@ -1,0 +1,31 @@
+.page-not-found {
+  height: 100vh;
+  background-color: var(--color-grey-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4.8rem;
+}
+
+.box {
+  /* box */
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+}
+
+.go-back {
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-back:hover {
+  background-color: var(--color-primary-dark);
+}

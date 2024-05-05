@@ -1,9 +1,15 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+}
 .filter-container {
   display: flex;
+  margin: 7px 30px;
 }
 
 .select-wrapper {
   position: relative;
+  width: 100%;
 }
 
 .select-wrapper.open .options-list {
@@ -35,10 +41,10 @@
 
 input {
   width: 100%;
-  padding: 8px;
-  font-size: 14px;
+  padding: 8px 28px 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none;
 }
 
 input:focus {
@@ -61,7 +67,7 @@ input {
 .arrow-down {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: -27px;
   transform: translateY(-50%);
   width: 0;
   height: 0;
@@ -73,7 +79,7 @@ input {
 .divider {
   position: absolute;
   top: 50%;
-  right: 30px;
+  right: -5px;
   transform: translateY(-50%);
   width: 1px;
   height: 20px;
@@ -106,4 +112,13 @@ input {
 
 .open .arrow-down {
   transform: translateY(-50%) rotate(180deg);
+}
+
+.placeholder {
+  font-size: x-small;
+  position: absolutw;
+  position: absolute;
+  top: -16%;
+  background: white;
+  left: 5%;
 }
