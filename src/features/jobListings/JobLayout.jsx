@@ -18,6 +18,7 @@ function JobLayout() {
   const [filterOptions, setFilterOptions] = useState([]);
   const [dataCompleted, setDataCompleted] = useState(false);
   const [totalCount, setTotalCount] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleScroll = () => {
     const scrollThreshold = 100;
@@ -161,6 +162,22 @@ function JobLayout() {
     return tempJobs;
   }, [jobs, searchParams]);
 
+  // Function to filter jobs by company name
+  const filterByCompanyName = (jobs, query) => {
+    return jobs.filter((job) =>
+      job.companyName.toLowerCase().includes(query.toLowerCase())
+    );
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Apply company name filter if searchQuery is not empty
+  const searchedJobs = searchQuery
+    ? filterByCompanyName(filteredJobs, searchQuery)
+    : filteredJobs;
+
   return (
     <>
       <div className="filters">
@@ -176,9 +193,16 @@ function JobLayout() {
             />
           ) : null;
         })}
+        <input
+          type="text"
+          placeholder="Search Company Name"
+          className="search-input"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
       </div>
       <div className="jobs-container">
-        {filteredJobs.map((job, index) => (
+        {searchedJobs.map((job, index) => (
           <CardItem key={index} job={job} />
         ))}
         {isLoading && (
@@ -186,11 +210,19 @@ function JobLayout() {
             <Spinner />
           </>
         )}
-        {dataCompleted && filteredJobs.length !== 0 && (
-          <div>Data Loaded Completely</div>
+        {dataCompleted && searchedJobs.length !== 0 && (
+          <div className="info-text"> Data Loaded Completely</div>
         )}
-        {dataCompleted && filteredJobs.length === 0 && (
-          <div>No Jobs available for this category at the moment</div>
+        {dataCompleted && searchedJobs.length === 0 && (
+          <div className="info-text">
+            No Jobs available for this category at the moment
+          </div>
+        )}
+
+        {searchQuery && searchedJobs.length === 0 && (
+          <div className="info-text">
+            No Jobs available for this company at the moment
+          </div>
         )}
       </div>
     </>
