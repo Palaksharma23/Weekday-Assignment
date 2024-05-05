@@ -251,7 +251,7 @@ function JobLayout() {
         const filterValue = params.get(filterField);
         if (filterField === "type" && filterValue === "Remote") {
           if (job.location === "remote") {
-            includeJob = true;
+            includeJob = includeJob & true;
             return;
           }
         } else if (filterField === "type" && filterValue === "Onsite") {
@@ -259,24 +259,24 @@ function JobLayout() {
         }
         if (filterField === "minExp") {
           if (job.minExp && job.minExp >= +filterValue) {
-            includeJob = true;
+            includeJob = includeJob & true;
             return;
           }
         }
         if (filterField === "minExp") {
           if (job.minExp && job.minExp >= +filterValue) {
-            includeJob = true;
+            includeJob = includeJob & true;
             return;
           }
         }
         if (filterField === "minJdSalary") {
           if (job.minExp && job.minJdSalary >= +filterValue) {
-            includeJob = true;
+            includeJob = includeJob & true;
             return;
           }
         }
         if (filterValue && job[filterField] !== filterValue) {
-          includeJob = false;
+          includeJob = includeJob & false;
         }
       });
       return includeJob;
