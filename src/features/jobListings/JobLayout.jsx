@@ -83,14 +83,35 @@ function JobLayout() {
 
         // Initialize filterOptions if it's empty
         if (filterOptions.length === 0) {
-          const updatedFilterOptions = Object.keys(options).map((key) => ({
-            value: key,
-            label: key.charAt(0).toUpperCase() + key.slice(1),
-            options: Array.from(options[key]).map((option) => ({
-              value: option,
-              label: option,
-            })),
-          }));
+          const updatedFilterOptions = Object.keys(options).map((key) => {
+            if (key === "minExp") {
+              // Find the maximum value in the minExp options
+              const maxMinExp = Math.max(...Array.from(options[key]));
+              // Generate an array from 1 to the maximum value
+              const minExpOptions = Array.from(
+                { length: maxMinExp + 1 },
+                (_, index) => index
+              );
+              // Create the filter option for minExp with the sorted array
+              return {
+                value: key,
+                label: key.charAt(0).toUpperCase() + key.slice(1),
+                options: minExpOptions.map((option) => ({
+                  value: option,
+                  label: option.toString(),
+                })),
+              };
+            } else {
+              return {
+                value: key,
+                label: key.charAt(0).toUpperCase() + key.slice(1),
+                options: Array.from(options[key]).map((option) => ({
+                  value: option,
+                  label: option,
+                })),
+              };
+            }
+          });
 
           // Add static filter options if they don't exist
           updatedFilterOptions.push({
@@ -124,6 +145,24 @@ function JobLayout() {
               const uniqueOptions = Array.from(options[filterOption.value])
                 .filter((option) => !existingOptionsSet.has(option))
                 .map((option) => ({ value: option, label: option }));
+
+              // If the filter option is "minExp", generate an array from 1 to the maximum value
+              if (filterOption.value === "minExp") {
+                const maxMinExp = Math.max(
+                  ...Array.from(options[filterOption.value])
+                );
+                const minExpOptions = Array.from(
+                  { length: maxMinExp + 1 },
+                  (_, index) => index
+                );
+                return {
+                  ...filterOption,
+                  options: minExpOptions.map((option) => ({
+                    value: option,
+                    label: option.toString(),
+                  })),
+                };
+              }
 
               return {
                 ...filterOption,
@@ -159,7 +198,6 @@ function JobLayout() {
     "minExp",
     "companyName",
     "location",
-
     "type",
     "techStack",
     "jobRole",
