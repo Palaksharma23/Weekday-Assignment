@@ -9,6 +9,7 @@ import {
   generateFilterOptions,
   mergeFilterOptions,
 } from "../../utils/filterUtils";
+import Spinner from "../../ui/Spinner";
 
 function JobLayout() {
   const [jobs, setJobs] = useState([]);
@@ -180,7 +181,11 @@ function JobLayout() {
         {filteredJobs.map((job, index) => (
           <CardItem key={index} job={job} />
         ))}
-        {isLoading && <div>Loading...</div>}
+        {isLoading && (
+          <>
+            <Spinner />
+          </>
+        )}
         {dataCompleted && filteredJobs.length !== 0 && (
           <div>Data Loaded Completely</div>
         )}
