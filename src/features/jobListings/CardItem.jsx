@@ -87,7 +87,7 @@ function CardItem({ job }) {
         </span>
         Unlock Referral asks
       </Button>
-      {/* Render modal only if showFullDetails is true */}
+      {/* Rendering modal only if showFullDetails is true */}
       {showFullDetails && (
         <>
           <Modal onClose={toggleFullDetails}>

@@ -5,13 +5,12 @@ import "./../styles/Modal.css";
 
 function Modal({ children, onClose }) {
   return createPortal(
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-style">
-        <button className="modal-close-btn" onClick={onClose}>
+        <button className="modal-close-btn">
           <HiXMark />
         </button>
-
-        <div>{children}</div>
+        <div className="modal-content">{children}</div>
       </div>
     </div>,
     document.body

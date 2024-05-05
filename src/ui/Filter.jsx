@@ -80,7 +80,6 @@ function Filter({ filterField, options }) {
         className={`select-wrapper ${isOpen ? "open" : ""}`}
         ref={dropdownRef}
       >
-        {/* Rendering span element based on search term */}
         {searchTerm && (
           <span className="placeholder">{placeholder(filterField)}</span>
         )}
@@ -91,7 +90,6 @@ function Filter({ filterField, options }) {
           onClick={() => setIsOpen(true)}
           placeholder={`${placeholder(filterField)}`}
         />
-        {/* Cross button to clear the input */}
         {searchTerm && (
           <div
             className="clear-input"
